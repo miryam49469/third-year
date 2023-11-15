@@ -5,13 +5,16 @@
 
 var users=[];
 
-class usersRepository{
-    DBgetOrderById=(id)=>{return users.filter((x)=>{x.id==id})[0];}
-    create=(obj)=>{users.push(obj);}
-    update=(id,obj)=>{
-        var ind=users.indexOf((x)=>{x.id==id});
-        users[ind]=obj;
-    }
-    delete=(id)=>{users=users.filter((x)=>{x.id==id})}
+exports.create = async (req, res) => {
+    if(req.body.email.includes('@'))
+       users.push(req.body);
 }
-module.export= usersRepository;
+exports.update = async (req, res) => {
+    var ind=users.indexOf((x)=>{x.id==id});
+    users[ind]=obj;
+}
+exports.delete = async (req, res) => {
+    users=users.filter((x)=>{x.id==id})
+}
+exports.getById = async (req, res) => {
+    return orders.filter((x)=>{x.id==id})[0];}

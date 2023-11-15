@@ -1,6 +1,6 @@
 const { where } = require('sequelize');
 // const model = require('../models');
-const userDal=require('../dal/usersRepository')
+const usersRepository=require('../dal/usersRepository')
 exports.create = async (req, res) => {
   // Validate request
   if (!req.body) {
@@ -10,7 +10,27 @@ exports.create = async (req, res) => {
     return;
   }
   // Save institute in the database
-  userDal.create(req.body)
+  usersRepository.create(req.body)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || ""
+      });
+    });
+};
+exports.getById = async (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+  // Save institute in the database
+  usersRepository.getById(req.body)
     .then(data => {
       res.send(data);
     })
@@ -22,12 +42,11 @@ exports.create = async (req, res) => {
     });
 };
 
-
   // // Delete a Institute with the specified id in the request
   exports.delete =async (req, res) => {
  
 
-    userDal.delete(req.params.id)
+    usersRepository.delete(req.params.id)
       .then(num => {
         if (num == 1) {
           res.send({
@@ -48,7 +67,7 @@ exports.create = async (req, res) => {
   exports.update = async (req, res) => {
     
    
-    userDal.update(req.params.id,req.body)
+    usersRepository.update(req.params.id,req.body)
       .then(num => {
         if (num == 1) {
           res.send({
